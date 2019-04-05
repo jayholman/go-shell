@@ -10,24 +10,23 @@ import (
 )
 
 func main() {
-	reader := bufio.NewReader(os.Stdin)
+	scanner := bufio.NewScanner(os.Stdin)
+	generatePrompt()
+	for scanner.Scan() {
+		// Handle the execution of the input
+		if err := execInput(scanner.Text()); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+		}
+		generatePrompt()
+	}
+}
+
+func generatePrompt() {
 	hostname, _ := os.Hostname()
 	currentUser, _ := user.Current()
-	for {
-		currentDirectory, _ := os.Getwd()
-		splitCurrentDirectory := strings.Split(currentDirectory, "/")
-		fmt.Printf("%s|%s|%s> ", hostname, currentUser.Name, splitCurrentDirectory[len(splitCurrentDirectory) - 1])
-		// Read the keboard input
-		input, err := reader.ReadString('\n')
-		if err != nil {
-			fmt.Fprintln(os.Stderr, err)
-		}
-
-		// Handle the execution of the input
-		if err = execInput(input); err != nil {
-			fmt.Fprintln(os.Stderr, err)
-		}
-	}
+	currentDirectory, _ := os.Getwd()
+	splitCurrentDirectory := strings.Split(currentDirectory, "/")
+	fmt.Printf("%s|%s|%s> ", hostname, currentUser.Name, splitCurrentDirectory[len(splitCurrentDirectory) - 1])
 }
 
 func execInput(input string) error {
