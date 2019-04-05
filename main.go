@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
 	"os"
 	"os/exec"
@@ -36,9 +35,9 @@ func execInput(input string) error {
 	// Check for built-in commands
 	switch args[0] {
 	case "cd":
-		// 'cd' to home dir with empty path not yet supported
+		// 'cd' to home dir with empty path
 		if len(args) < 2 {
-			return errors.New("path required")
+			return os.Chdir("/")
 		}
 		// Change the directory and return the error
 		return os.Chdir(args[1])
