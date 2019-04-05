@@ -11,7 +11,8 @@ import (
 func main() {
 	reader := bufio.NewReader(os.Stdin)
 	for {
-		fmt.Print("> ")
+		currentDirectory, _ := os.Getwd()
+		fmt.Print(currentDirectory + " > ")
 		// Read the keboard input
 		input, err := reader.ReadString('\n')
 		if err != nil {
