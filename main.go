@@ -5,14 +5,18 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"os/user"
 	"strings"
 )
 
 func main() {
 	reader := bufio.NewReader(os.Stdin)
+	hostname, _ := os.Hostname()
+	currentUser, _ := user.Current()
 	for {
 		currentDirectory, _ := os.Getwd()
-		fmt.Print(currentDirectory + " > ")
+		splitCurrentDirectory := strings.Split(currentDirectory, "/")
+		fmt.Printf("%s|%s|%s> ", hostname, currentUser.Name, splitCurrentDirectory[len(splitCurrentDirectory) - 1])
 		// Read the keboard input
 		input, err := reader.ReadString('\n')
 		if err != nil {
